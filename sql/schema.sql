@@ -1,0 +1,30 @@
+--create user table
+CREATE TABLE users(
+ id SERIAL PRIMARY KEY,
+ name VARCHAR(255) NOT NULL,
+ email VARCHAR(255) NOT NULL UNIQUE,
+ password VARCHAR(255) NOT NULL,
+ role VARCHAR(255) NOT NULL,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+ 
+--create book table
+CREATE TABLE books(
+ id SERIAL PRIMARY KEY,
+ title VARCHAR(255) NOT NULL,
+ author VARCHAR(255) NOT NULL,
+ isbn VARCHAR(255) NOT NULL UNIQUE,
+ quantity INT DEFAULT 0,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+--create loans table
+CREATE TABLE loans(
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) NOT NULL,
+    book_id INT REFERENCES books(id) NOT NULL,
+    borrowed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    returned_at TIMESTAMP DEFAULT NULL,
+    status VARCHAR(20) DEFAULT 'borrowed'
+);
