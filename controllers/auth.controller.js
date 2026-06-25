@@ -1,8 +1,6 @@
 const registerAuth = require('../services/auth.service');
 
 async function register(req, res) {
-    console.log(req.headers['content-type']);
-    console.log(req.body);
     try {
         const { name, email, password, role } = req.body;
 
@@ -13,8 +11,6 @@ async function register(req, res) {
             password,
             role
         );
-
-        console.log(result);
 
         res.status(201).json(result);
 

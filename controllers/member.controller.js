@@ -3,7 +3,6 @@ const memberService = require('../services/member.service');
 async function index(req,res) {
     //call index method
 
-    console.log(req.user);
     try {
         const result = await memberService.index();
 

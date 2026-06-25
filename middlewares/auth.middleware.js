@@ -1,27 +1,25 @@
 const jwt = require("jsonwebtoken");
 
 async function auth(req, res, next) {
-    const token = req.headers.authorization;
+    // Accept both “Bearer <token>” and plain token strings
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[0] === 'Bearer'
+        ? authHeader.split(' ')[1]          // strip “Bearer ”
+        : authHeader;                       // plain token
 
     if (!token) {
-        res.status(401).json({
-            message: "faill",
-        })
+        return res.status(401).json({
+            message: "Missing or invalid token",
+        });
     }
 
     try {
-        //verify token
+        // Verify token
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
-        //set user in request
-        req.user = decoded;
-
-        //go next()
+        req.user = decoded;   // make user info available downstream
         next();
     } catch (error) {
-        res.status(401).json({
-            message: error.message,
-        })
+        res.status(401).json({ message: error.message });
     }
 }
 

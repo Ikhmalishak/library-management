@@ -19,7 +19,7 @@ async function login(email, password) {
 
     //find the email inside database
     const emailExist = await pool.query(
-        `SELECT name,email,password,role
+        `SELECT id,name,email,password,role
         FROM users 
         WHERE email = $1`,
         [email]
@@ -30,7 +30,6 @@ async function login(email, password) {
     }
 
     const user = emailExist.rows[0];
-    console.log(user);
 
     const isMatch = bcrypt.compare(user.password, password);
 
@@ -39,6 +38,7 @@ async function login(email, password) {
     }
 
     const payload = {
+        id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,

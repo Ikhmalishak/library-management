@@ -40,6 +40,7 @@ async function borrowBook(userId, bookId) {
 }
 
 async function returnBook(userId, loanId) {
+    console.log(loanId,userId);
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
